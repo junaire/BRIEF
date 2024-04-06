@@ -1,11 +1,12 @@
 build/
 book/
 venv/
+.venv/
 node_modules/
 .hypothesis/
 .pytest_cache/
 hypothesis_*
 __pycache__
 .vscode
-
+log
 **/*.o

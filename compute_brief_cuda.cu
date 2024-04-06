@@ -28,6 +28,17 @@ __device__ int smoothedSumCuda(cv::cuda::PtrStepSz<int> sum,
 #undef A
 }
 
+__global__ void PixelTest32Kernel2(
+    cv::cuda::PtrStepSz<int> sum,
+    cv::cuda::PtrStepSz<unsigned char> descriptors,
+    cv::KeyPoint *__restrict__ keypoints, int num_keypoints) {
+  int idx = blockIdx.x;
+  if (idx < num_keypoints) {
+    unsigned char *desc = descriptors.ptr(idx);
+    const cv::KeyPoint &pt = keypoints[idx];
+  }
+}
+
 __global__ void PixelTest32Kernel(
     cv::cuda::PtrStepSz<int> sum,
     cv::cuda::PtrStepSz<unsigned char> descriptors,
@@ -318,10 +329,12 @@ void pixelTests32Cuda(cv::InputArray _sum,
 
   int block_size = 256;
   int num_blocks = (keypoints.size() + block_size - 1) / block_size;
-
   PixelTest32Kernel<<<block_size, num_blocks>>>(
       gpu_sum, gpu_descriptors, gpu_keypoints, keypoints.size());
-  gpu_descriptors.download(_descriptors);
+  // int num_blocks = keypoints.size();
+  // PixelTest32Kernel2<<<block_size, num_blocks>>>(
+  //     gpu_sum, gpu_descriptors, gpu_keypoints, keypoints.size());
+  // gpu_descriptors.download(_descriptors);
 
   gpu_sum.release();
   gpu_descriptors.release();
