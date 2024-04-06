@@ -5,6 +5,7 @@
 static void pixelTests32(cv::InputArray _sum,
                          const std::vector<cv::KeyPoint> &keypoints,
                          cv::OutputArray _descriptors, bool use_orientation) {
+  Timer t("CPU");
   cv::Matx21f R;
   cv::Mat sum = _sum.getMat(), descriptors = _descriptors.getMat();
   for (size_t i = 0; i < keypoints.size(); ++i) {

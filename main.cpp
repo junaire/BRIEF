@@ -68,15 +68,15 @@ int main(int argv, char **argc) {
 
   cv::Mat descriptor1, descriptor2, descriptor3;
   {
-    Timer _("OpenCV");
+    // Timer _("OpenCV");
     descriptor1 = DetectAndComputeBRIEF(img, ComputeBRIEFOpenCV);
   }
   {
-    Timer _("CPU from scratch");
+    // Timer _("CPU from scratch");
     descriptor2 = DetectAndComputeBRIEF(img, ComputeBRIEFCPU);
   }
   {
-    Timer _("GPU with Cuda");
+    // Timer _("GPU with Cuda");
     descriptor3 = DetectAndComputeBRIEF(img, ComputeBRIEFGPU);
   }
   TestResults(descriptor1, descriptor2);

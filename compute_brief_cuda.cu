@@ -300,6 +300,11 @@ __global__ void PixelTest32Kernel(
 void pixelTests32Cuda(cv::InputArray _sum,
                       const std::vector<cv::KeyPoint> &keypoints,
                       cv::OutputArray _descriptors, bool use_orientation) {
+  cudaEvent_t start, gpu_stop;
+
+  CHECK(cudaEventCreate(&start));
+  CHECK(cudaEventCreate(&gpu_stop));
+  CHECK(cudaEventRecord(start));
   cv::Mat sum = _sum.getMat(), descriptors = _descriptors.getMat();
 
   cv::cuda::GpuMat gpu_sum(sum);
@@ -321,4 +326,9 @@ void pixelTests32Cuda(cv::InputArray _sum,
   gpu_sum.release();
   gpu_descriptors.release();
   CHECK(cudaFree(gpu_keypoints));
+  CHECK(cudaEventRecord(gpu_stop));
+  CHECK(cudaEventSynchronize(gpu_stop));
+  float elapsed_gpu;
+  CHECK(cudaEventElapsedTime(&elapsed_gpu, start, gpu_stop));
+  printf("GPU time: %f ms\n", elapsed_gpu);
 }
