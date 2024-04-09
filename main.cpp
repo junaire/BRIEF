@@ -63,8 +63,13 @@ void ComputeBRIEFOpenCV(const cv::Mat &img, std::vector<cv::KeyPoint> &key_pts,
   d->compute(img, key_pts, descriptor);
 }
 
-int main(int argv, char **argc) {
-  cv::Mat img = cv::imread("assets/1.jpg");
+int main(int argc, char **argv) {
+  if (argc != 2) {
+    printf("Incorrect arguments!\n");
+    exit(1);
+  }
+  std::string file = argv[1];
+  cv::Mat img = cv::imread(file);
 
   cv::Mat descriptor1, descriptor2, descriptor3;
   {
