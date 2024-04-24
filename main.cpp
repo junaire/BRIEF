@@ -51,10 +51,13 @@ cv::Mat DetectAndComputeBRIEF(const cv::Mat &img, ComputeFunc func) {
 }
 
 void TestResults(const cv::Mat &descriptor1, const cv::Mat &descriptor2) {
-  assert(std::equal(descriptor1.begin<uchar>(), descriptor1.end<uchar>(),
-                    descriptor2.begin<uchar>()) &&
-         "Descriptors differs!");
-  printf("OK!\n");
+  if (std::equal(descriptor1.begin<uchar>(), descriptor1.end<uchar>(),
+                 descriptor2.begin<uchar>()) &&
+      "Descriptors differs!") {
+    printf("OK!\n");
+  } else {
+    printf("Bad results.\n");
+  }
 }
 
 void ComputeBRIEFOpenCV(const cv::Mat &img, std::vector<cv::KeyPoint> &key_pts,

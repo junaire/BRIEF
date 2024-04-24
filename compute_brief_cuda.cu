@@ -321,6 +321,7 @@ void pixelTests32Cuda(cv::InputArray _sum,
   PixelTest32Kernel<<<block_size, num_blocks>>>(
       gpu_sum, gpu_descriptors, gpu_keypoints, keypoints.size());
 
+  gpu_descriptors.download(descriptors);
   gpu_sum.release();
   gpu_descriptors.release();
   CHECK(cudaFree(gpu_keypoints));
